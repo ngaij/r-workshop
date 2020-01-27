@@ -17,7 +17,7 @@ We will install these packages:
 
 ```{r setup, message=FALSE, warning=FALSE}
 library (tidyverse) # install.packages("tidyverse")
-library (readxl) #isntall.packages("readxl")
+library (readxl) #install.packages("readxl")
 library (here) #install.packages("here")
 
 ```
@@ -31,7 +31,90 @@ ca_np <- read_csv(here("data/ca_np.csv"))
 # ca_np <- read_csv("data/ca_np.csv")
 # ca_np <- read_csv(here("data", "ca_np.csv"))
 
-ci_np <- read_excel(here("data/ci_np.xlsx"))
+ci_np <- read_excel(here("data", "ci_np.xlsx"))
 
 ```
+
+## Make my own first graph (Plot of Channel Islands data)
+
+We're going to make a line plot of year (x-variable) vs visitors (y-variable) in ggplot:
+
+```{r plot-data}
+
+ggplot(data = ci_np, aes(x = year, y = visitors)) + 
+  geom_line()
+
+ggplot(data = ci_np, aes(x = year, y = visitors)) + 
+  geom_point()
+
+# Update the geom_ to geom_point(), geom_col(), geom_area()
+
+```
+
+Make a base layer for my CI plots:
+
+```{r}
+
+gg_base <- ggplot(data = ci_np, aes(x = year, y = visitors))
+
+gg_base + geom_point()
+
+```
+
+## Now lets start customizing!  (based on the Grammar of Graphics)
+
+- Line / point colors: color
+- Change line type: linetype
+- Change point style: pch
+- Change transparaency: alpha
+
+```{r}
+
+gg_base + 
+  geom_line(
+    color = "purple",
+    linetype = "dashed"
+  )
+  
+```
+
+Activity: create a ggplot scatterplot (geom_point) that has triangle symols (hint: ?pch), of a non-default size (size = #), and that are an update color.
+
+
+```{r}
+
+gg_base + 
+  geom_point(
+    color = "orange4",
+    size = 20,
+    pch = 2
+  )
+  
+```
+
+## Update graph aesthetics based on variables
+
+```{r}
+
+gg_base + 
+  geom_point(
+    aes(size = visitors)
+  )
+
+```
+
+# Add an argument to update the color based on the year value
+
+```{r}
+
+gg_base + 
+  geom_point(
+    aes(size = visitors, 
+          color = year),
+    pch = 10
+  )
+
+```
+
+
 
